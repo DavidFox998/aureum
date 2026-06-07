@@ -1,0 +1,25 @@
+{
+  "upload_type": "software",
+  "access_right": "open",
+  "license": "MIT",
+  "publication_date": "2026-05-21",
+  "creators": [
+    {
+      "name": "Fox, David J.",
+      "orcid": "0009-0008-1290-6105",
+      "affiliation": "Independent researcher, Aberdeen/Seattle WA"
+    }
+  ],
+  "title": "Opera Numerorum \u2014 Aureum: Machine Certification for GRH(X_0(143)) and BSD(J_0(143))",
+  "description": "Morning Star repository for Opera Numerorum. Machine certification of the Generalized Riemann Hypothesis for X_0(143) and the Birch-Swinnerton-Dyer conjecture for J_0(143). 476 certified equations, CLAY-sealed, SHA-256 chain-of-custody.",
+  "keywords": [
+    "GRH",
+    "BSD",
+    "X_0(143)",
+    "J_0(143)",
+    "machine certification",
+    "SHA-256",
+    "Lean 4",
+    "Opera Numerorum"
+  ]
+}

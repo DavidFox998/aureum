@@ -1,4 +1,4 @@
-# Opera Numerorum — Morning Star Repository
+# Opera Numerorum — Aureum Repository
 
 *Machine Certification for GRH(X_0(143)) and BSD(J_0(143))*
 *David J. Fox — ORCID 0009-0008-1290-6105 — davidjfox998@gmail.com*
@@ -11,7 +11,7 @@ bash tests/verify.sh
 
 Expected output:
 ```
-=== MORNING STAR VERIFICATION ===
+=== AUREUM VERIFICATION ===
 1. CLAY checksum...
    PASS: 518144c8... SEALED
 2. SORRY count in proofs/...
@@ -22,7 +22,7 @@ Expected output:
    PASS: All files intact
 5. Equation count...
    PASS: 476 equations certified
-ALL CHECKS PASS. MORNING STAR CERTIFIED.
+ALL CHECKS PASS. AUREUM CERTIFIED.
 ```
 
 ## CLAY Seal

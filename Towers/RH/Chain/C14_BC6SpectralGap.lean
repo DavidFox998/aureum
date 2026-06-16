@@ -233,7 +233,7 @@ theorem lambda_1_Y0_143_pos : Lambda1_Y0_143_Surface :=
       • C_S4_143 = 11.422... is a proved S₄ upper bound; C_S14_143 is the tighter
         S₁₄ value from BC95 (14 exceptional primes; C(α₀) in the published paper).
       • λ₁(Y₀(143)) > 0 (THEOREM lambda_1_Y0_143_pos; Kim-Sarnak 2003)
-      • (ω,ω)_Ar > 0 (proved from au_green_bound + K_143_lt_bound in C13)
+      • (ω,ω)_Ar > 0 (axiom arakelov_pairing_pos in C13: JK + Ogg combined)
 
     NOTE on S₁₄ vs S₄: The actual BC computation uses S₁₄ (14 exceptional primes),
     giving C(α₀) ≈ 8.62925199 > 7.211.  C_S4_143 = 11.422 (S₄ correct formula) is

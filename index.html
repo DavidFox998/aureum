@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MORNINGSTAR PROJECT // TA-143 // OPERA NUMERORUM</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
+  
+  :root {
+    --phosphor-green: #33ff33;
+    --phosphor-amber: #ffb000;
+    --crt-bg: #0a0e0a;
+    --paper: #e8e0c9;
+    --ink: #1a0e00;
+    --glow: 0 0 5px currentColor, 0 0 10px currentColor;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--crt-bg);
+    color: var(--phosphor-green);
+    font-family: 'IBM Plex Mono', monospace;
+    overflow-x: hidden;
+    font-size: 14px;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+      repeating-linear-gradient(0deg, rgba(0,0,0,0.15), rgba(0,0,0,0.15) 1px, transparent 1px, transparent 2px),
+      radial-gradient(ellipse at center, rgba(51,255,51,0.03) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 9999;
+    mix-blend-mode: overlay;
+  }
+
+  body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    box-shadow: inset 0 0 150px rgba(0,0,0,0.8);
+    pointer-events: none;
+    z-index: 9998;
+  }
+
+  .paper-texture {
+    background-color: var(--paper);
+    background-image: 
+      linear-gradient(90deg, rgba(0,0,0,.03) 1px, transparent 1px),
+      linear-gradient(rgba(0,0,0,.03) 1px, transparent 1px);
+    background-size: 20px 20px;
+    color: var(--ink);
+    box-shadow: 0 0 30px rgba(0,0,0,0.5), inset 0 0 50px rgba(139,115,85,0.1);
+  }
+
+  .crt-text-green {
+    color: var(--phosphor-green);
+    text-shadow: var(--glow);
+  }
+
+  .crt-text-amber {
+    color: var(--phosphor-amber);
+    text-shadow: 0 0 5px var(--phosphor-amber), 0 0 10px var(--phosphor-amber);
+  }
+
+  .serif {
+    font-family: 'Libre Baskerville', serif;
+  }
+
+  .panel {
+    border: 2px solid var(--phosphor-green);
+    box-shadow: inset 0 0 20px rgba(51,255,51,0.1), 0 0 10px rgba(51,255,51,0.2);
+    background: rgba(10,20,10,0.7);
+    position: relative;
+    backdrop-filter: blur(2px);
+  }
+
+  .panel::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--phosphor-green), transparent);
+    opacity: 0.5;
+  }
+
+  .nixie {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 600;
+    font-size: 1.5rem;
+    background: #000;
+    border: 1px solid #331100;
+    padding: 0.25rem 0.75rem;
+    color: #ff6600;
+    text-shadow: 0 0 10px #ff6600, 0 0 20px #ff3300;
+    box-shadow: inset 0 0 10px rgba(255,102,0,0.3);
+    border-radius: 2px;
+    display: inline-block;
+    min-width: 2ch;
+    text-align: center;
+  }
+
+  .toggle-switch {
+    position: relative;
+    width: 60px;
+    height: 30px;
+    background: #1a1a1a;
+    border: 2px solid #333;
+    border-radius: 2px;
+    cursor: pointer;
+    box-shadow: inset 0 2px 8px rgba(0,0,0,0.8);
+  }
+
+  .toggle-switch.active {
+    background: #003300;
+    border-color: var(--phosphor-green);
+    box-shadow: inset 0 2px 8px rgba(0,0,0,0.8), 0 0 10px rgba(51,255,51,0.5);
+  }
+
+  .toggle-switch .knob {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 24px;
+    height: 22px;
+    background: linear-gradient(180deg, #555, #222);
+    border: 1px solid #000;
+    transition: left 0.2s;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.8);
+  }
+
+  .toggle-switch.active .knob {
+    left: 30px;
+    background: linear-gradient(180deg, #55ff55, #22aa22);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.8), 0 0 8px rgba(51,255,51,0.6);
+  }
+
+  .pushbutton {
+    background: linear-gradient(180deg, #2a2a2a, #0a0a0a);
+    border: 2px solid #444;
+    color: var(--phosphor-amber);
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 400;
+    text-shadow: 0 0 5px currentColor;
+    box-shadow: 0 4px 0 #000, 0 5px 10px rgba(0,0,0,0.8);
+    transition: all 0.1s;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .pushbutton:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 #000, 0 2px 5px rgba(0,0,0,0.8);
+  }
+
+  .pushbutton:hover {
+    border-color: var(--phosphor-amber);
+    box-shadow: 0 4px 0 #000, 0 5px 15px rgba(255,176,0,0.4);
+  }
+
+  .led {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #220000;
+    border: 1px solid #440000;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.8);
+    display: inline-block;
+  }
+
+  .led.on {
+    background: #ff0000;
+    border-color: #ff3300;
+    box-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000, inset 0 0 5px rgba(255,200,200,0.5);
+    animation: blink 1s infinite;
+  }
+
+  .led.green.on {
+    background: var(--phosphor-green);
+    border-color: #66ff66;
+    box-shadow: 0 0 10px var(--phosphor-green), 0 0 20px var(--phosphor-green);
+  }
+
+  @keyframes blink {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0.3; }
+  }
+
+  .glitch-8bit {
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    animation: glitch 0.3s steps(2, end) infinite;
+  }
+
+  @keyframes glitch {
+    0% { transform: translateX(0) scaleX(1); filter: hue-rotate(0deg); }
+    25% { transform: translateX(-2px) scaleX(1.02); filter: hue-rotate(90deg); }
+    50% { transform: translateX(2px) scaleX(0.98); filter: hue-rotate(180deg); }
+    75% { transform: translateX(-1px) scaleX(1.01); filter: hue-rotate(270deg); }
+    100% { transform: translateX(0) scaleX(1); filter: hue-rotate(360deg); }
+  }
+
+  .dial {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #2a2a2a, #000);
+    border: 3px solid #444;
+    position: relative;
+    cursor: pointer;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.8), 0 0 10px rgba(0,0,0,0.5);
+  }
+
+  .dial::after {
+    content: "";
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    width: 3px;
+    height: 40%;
+    background: var(--phosphor-amber);
+    transform-origin: bottom center;
+    transform: translateX(-50%);
+    box-shadow: 0 0 5px var(--phosphor-amber);
+  }
+
+  .oscilloscope {
+    background: #000;
+    border: 2px solid #003300;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ascii-grid {
+    display: grid;
+    grid-template-columns: repeat(20, 1fr);
+    gap: 2px;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  .ascii-cell {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.1s;
+    font-size: 0.7rem;
+  }
+
+  .ascii-cell:hover {
+    background: rgba(51,255,51,0.2);
+  }
+
+  .ascii-cell.active {
+    background: var(--phosphor-green);
+    color: #000;
+    box-shadow: 0 0 8px var(--phosphor-green);
+  }
+
+  .blueprint-mode * {
+    color: #00ddff !important;
+    text-shadow: 0 0 5px #00ddff, 0 0 10px #00ddff !important;
+    border-color: #00ddff !important;
+  }
+
+  .blueprint-mode .panel {
+    background: rgba(0,20,40,0.6);
+    box-shadow: inset 0 0 20px rgba(0,221,255,0.1), 0 0 10px rgba(0,221,255,0.2);
+  }
+
+  .flow-arrow {
+    position: relative;
+    margin: 1rem 0;
+    padding-left: 2rem;
+  }
+
+  .flow-arrow::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    font-size: 1.5rem;
+    animation: flow 1s infinite;
+  }
+
+  @keyframes flow {
+    0%, 100% { transform: translateX(0); opacity: 0.5; }
+    50% { transform: translateX(10px); opacity: 1; }
+  }
+
+  #boot-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  #boot-screen.hidden {
+    display: none;
+  }
+
+  .power-switch {
+    width: 120px;
+    height: 200px;
+    background: linear-gradient(90deg, #2a2a2a, #1a1a1a, #2a2a2a);
+    border: 4px solid #444;
+    border-radius: 8px;
+    cursor: pointer;
+    position: relative;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.8), inset 0 2px 10px rgba(255,255,255,0.05);
+  }
+
+  .power-lever {
+    position: absolute;
+    width: 80%;
+    height: 40%;
+    left: 10%;
+    top: 55%;
+    background: linear-gradient(180deg, #cc0000, #660000);
+    border: 2px solid #440000;
+    border-radius: 4px;
+    transition: top 0.3s;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.8);
+  }
+
+  .power-switch.on .power-lever {
+    top: 5%;
+    background: linear-gradient(180deg, #00cc00, #006600);
+    border-color: #004400;
+  }
+
+  input[type="number"] {
+    background: #000;
+    border: 1px solid var(--phosphor-green);
+    color: var(--phosphor-green);
+    padding: 0.25rem 0.5rem;
+    font-family: 'IBM Plex Mono', monospace;
+    width: 100px;
+  }
+
+  .photo-viewer {
+    background: #000;
+    border: 2px solid #333;
+    padding: 1rem;
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  canvas {
+    image-rendering: pixelated;
+  }
+
+  @media (max-width: 768px) {
+    .ascii-grid {
+      grid-template-columns: repeat(10, 1fr);
+    }
+  }
+</style>
+</head>
+<body>
+
+<div id="boot-screen">
+  <div class="text-center mb-8">
+    <div class="crt-text-green text-4xl mb-4 serif">MORNINGSTAR PROJECT</div>
+    <div class="crt-text-amber text-xl mb-2">FILE NO. TA-143</div>
+    <div class="text-sm opacity-60 mb-8">OPERA NUMERORUM // TEMPORAL RECOVERY PROGRAM</div>
+    <div class="crt-text-green text-xs mb-8">[ SYSTEM OFFLINE ]</div>
+  </div>
+  <div class="power-switch" id="powerSwitch">
+    <div class="power-lever"></div>
+  </div>
+  <div class="crt-text-amber text-sm mt-8">TOGGLE POWER TO INITIALIZE</div>
+</div>
+
+<div id="main-console" class="hidden min-h-screen p-4">
+  <!-- Header -->
+  <div class="paper-texture mb-4 p-4 border-b-4 border-ink">
+    <div class="flex flex-wrap justify-between items-center">
+      <div>
+        <h1 class="serif text-3xl font-bold">OPERA NUMERORUM</h1>
+        <div class="text-sm mt-1">MORNINGSTAR PROJECT // TA-143 // CLASSIFIED</div>
+      </div>
+      <div class="flex gap-4 items-center mt-4 lg:mt-0">
+        <div class="flex items-center gap-2">
+          <span class="text-xs">SORRY:</span>
+          <span class="nixie">0</span>
+          <span class="led green on"></span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-xs">SYSTEM:</span>
+          <span class="crt-text-green text-sm">NOMINAL</span>
+        </div>
+        <button class="pushbutton text-xs" id="blueprintToggle">ENGINEERING DIAGRAM MODE</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Grid -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+    
+    <!-- Column 1: Windows I & II -->
+    <div class="space-y-4">
+      <!-- Window I: T1-T12 Audit -->
+      <div class="panel p-4">
+        <div class="flex justify-between items-center mb-3">
+          <h2 class="crt-text-amber text-lg serif">WINDOW I: T1-T12 CERTIFICATION AUDIT</h2>
+          <span class="text-xs crt-text-green" id="auditStatus">0/12</span>
+        </div>
+        <div class="grid grid-cols-3 gap-2 mb-3" id="tAuditGrid"></div>
+        <div class="text-xs crt-text-green text-center pt-2 border-t border-green-900" id="launchAuth">
+          AUDIT INCOMPLETE
+        </div>
+      </div>
+
+      <!-- Window II: Protocol Z -->
+      <div class="panel p-4">
+        <h2 class="crt-text-amber text-lg serif mb-3">WINDOW II: PROTOCOL Z OPERATIONAL</h2>
+        <div class="space-y-3 text-xs">
+          <div class="flex justify-between items-center">
+            <span>Z-Frequency</span>
+            <div class="flex items-center gap-2">
+              <span class="crt-text-amber">299.314159 MHz</span>
+              <div class="toggle-switch" data-param="zfreq"><div class="knob"></div></div>
+            </div>
+          </div>
+          <div class="flex justify-between items-center">
+            <span>Z-Metric</span>
+            <div class="flex items-center gap-2">
+              <span class="crt-text-amber">\(v_g=3.183c\)</span>
+              <div class="toggle-switch" data-param="zmetric"><div class="knob"></div></div>
+            </div>
+          </div>
+          <div class="flex justify-between items-center">
+            <span>Z-Lock</span>
+            <div class="flex items-center gap-2">
+              <span class="crt-text-amber">\(M^* \times Z_{throat}=12/11\)</span>
+              <div class="toggle-switch" data-param="zlock"><div class="knob"></div></div>
+            </div>
+          </div>
+          <div class="flex justify-between items-center">
+            <span>Z-Coherence</span>
+            <div class="flex items-center gap-2">
+              <span class="crt-text-amber">\(Z(-1)=-1/12\)</span>
+              <div class="toggle-switch" data-param="zcoherence"><div class="knob"></div></div>
+            </div>
+          </div>
+          <div class="flex justify-between items-center">
+            <span>Z-Route</span>
+            <div class="flex items-center gap-2">
+              <span class="crt-text-amber">\(Z_{throat}=15\)</span>
+              <div class="toggle-switch active" data-param="zroute"><div class="knob"></div></div>
+            </div>
+          </div>
+          <div class="flex justify-between items-center">
+            <span>Z-Bound</span>
+            <div class="flex items-center gap-2">
+              <span class="crt-text-amber">\(a_t<0.1g\)</span>
+              <div class="toggle-switch" data-param="zbound"><div class="knob"></div></div>
+            </div>
+          </div>
+          <div class="flex justify-between items-center">
+            <span>Z-Health</span>
+            <div class="flex items-center gap-2">
+              <span class="crt-text-amber">MTBF</span>
+              <div class="toggle-switch" data-param="zhealth"><div class="knob"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Core Equations -->
+      <div class="panel p-4">
+        <h2 class="crt-text-amber text-sm serif mb-3">OPERATIONAL CONSTANTS</h2>
+        <div class="text-xs space-y-2 serif">
+          <div>\(\alpha_0 = 299 + \frac{\pi}{10} \)</div>
+          <div>\(v_g = \frac{\pi}{1-1/Z_{throat}} = 3.183c \)</div>
+          <div>\(C(S_4) = 11.4221 > 2\sqrt{13} = 7.2111 \)</div>
+          <div>\(M^* \times Z_{throat} = \frac{12}{11} \)</div>
+          <div>\(Z(-1) = -\frac{1}{12} \)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Column 2: Event Monitor & Command -->
+    <div class="space-y-4">
+      <!-- p5/p6 Event Monitor -->
+      <div class="panel p-4">
+        <h2 class="crt-text-amber text-lg serif mb-3">p5/p6 EVENT MONITOR</h2>
+        <div class="grid grid-cols-2 gap-4 mb-4">
+          <div>
+            <div class="text-xs mb-1">Z-WARM</div>
+            <div class="oscilloscope h-24" id="zWarmCanvas"></div>
+            <div class="text-xs mt-1 crt-text-green">p5: <span id="p5val">0.00</span></div>
+          </div>
+          <div>
+            <div class="text-xs mb-1">Z-RESONANT</div>
+            <div class="oscilloscope h-24" id="zResonantCanvas"></div>
+            <div class="text-xs mt-1 crt-text-amber">p6: <span id="p6val">1.23e-15</span></div>
+          </div>
+        </div>
+        <div class="text-xs border-t border-green-900 pt-2">
+          <span class="led" id="glitchLED"></span>
+          <span id="glitchStatus">QUANTUM COHERENCE: STABLE</span>
+        </div>
+      </div>
+
+      <!-- Z-Command Deck -->
+      <div class="panel p-4">
+        <h2 class="crt-text-amber text-lg serif mb-3">Z-COMMAND DECK</h2>
+        <div class="grid grid-cols-4 gap-2 mb-4">
+          <button class="pushbutton text-xs" data-cmd="1">Z.1</button>
+          <button class="pushbutton text-xs" data-cmd="2">Z.2</button>
+          <button class="pushbutton text-xs" data-cmd="3">Z.3</button>
+          <button class="pushbutton text-xs" data-cmd="4">Z.4</button>
+          <button class="pushbutton text-xs" data-cmd="5">Z.5</button>
+          <button class="pushbutton text-xs" data-cmd="6">Z.6</button>
+          <button class="pushbutton text-xs" data-cmd="7">Z.7</button>
+          <button class="pushbutton text-xs" data-cmd="8">Z.8</button>
+          <button class="pushbutton text-xs" data-cmd="9">Z.9</button>
+          <button class="pushbutton text-xs" data-cmd="10">Z.10</button>
+          <button class="pushbutton text-xs" data-cmd="12">Z.12</button>
+          <button class="pushbutton text-xs" data-cmd="13">Z.13</button>
+          <button class="pushbutton text-xs" data-cmd="14">Z.14</button>
+        </div>
+        <div class="border-t border-green-900 pt-3">
+          <div class="flex gap-2 items-center">
+            <button class="pushbutton text-xs" id="z11Btn">Z.11 HOP</button>
+            <input type="number" id="hopInput" placeholder="n" value="143">
+            <button class="pushbutton text-xs" id="executeHop">EXEC</button>
+          </div>
+        </div>
+        <div class="text-xs mt-3 crt-text-green" id="commandLog">READY</div>
+      </div>
+
+      <!-- ASCII Prime Sieve -->
+      <div class="panel p-4">
+        <h2 class="crt-text-amber text-lg serif mb-3">ASCII PRIME SIEVE // S₄</h2>
+        <div class="text-xs mb-2">\(S_4 = \{2,3,19,191\}\)</div>
+        <div class="ascii-grid mb-3" id="primeSieve"></div>
+        <div class="text-xs border-t border-green-900 pt-2">
+          <span class="crt-text-green">ACTIVE:</span> <span id="activePrimes">2, 3, 19, 191</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Column 3: Display & Reports -->
+    <div class="space-y-4">
+      <!-- 120-Cell Display -->
+      <div class="panel p-4">
+        <h2 class="crt-text-amber text-lg serif mb-3">120-CELL DISPLAY</h2>
+        <div id="cell120Container" class="bg-black border border-green-900" style="height: 300px;"></div>
+        <div class="flex justify-between text-xs mt-2">
+          <span>ROTATION: <span id="rotationVal">0°</span></span>
+          <span class="crt-text-green">VECTOR WIREFRAME ACTIVE</span>
+        </div>
+      </div>
+
+      <!-- Field Report Viewer -->
+      <div class="panel p-4">
+        <h2 class="crt-text-amber text-lg serif mb-3">FIELD REPORT VIEWER</h2>
+        <div class="photo-viewer mb-3" id="photoViewer">
+          <div class="text-center text-xs opacity-50">
+            <div>[ PHOTOGRAPH NEGATIVE ]</div>
+            <div class="mt-2">NO. <span id="photoNum">001</span> / 040</div>
+          </div>
+        </div>
+        <div class="grid grid-cols-3 gap-2 mb-3 text-xs">
+          <button class="pushbutton" id="prevPhoto">◀ PREV</button>
+          <div class="flex items-center justify-center crt-text-amber">
+            <span id="photoCounter">1 / 40</span>
+          </div>
+          <button class="pushbutton" id="nextPhoto">NEXT ▶</button>
+        </div>
+        <div class="text-xs border-t border-green-900 pt-2 space-y-1">
+          <div>SHA-256: <span class="crt-text-green" id="photoHash">a4f3c2...</span></div>
+          <div>TIMESTAMP: <span class="crt-text-amber" id="photoTime">2026-06-04 14:23:01 UTC</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Engineering Diagram Mode -->
+  <div id="blueprintView" class="hidden panel p-6 mt-4">
+    <h2 class="crt-text-amber text-2xl serif mb-6">ENGINEERING DIAGRAM MODE // SIGNAL FLOW</h2>
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-4 items-center text-center">
+      <div class="paper-texture p-4 text-ink">
+        <div class="text-xs mb-2">INPUT</div>
+        <div class="serif text-xl">\(X_0(143)\)</div>
+      </div>
+      <div class="flow-arrow text-2xl"></div>
+      <div class="paper-texture p-4 text-ink">
+        <div class="text-xs mb-2">LAPLACE</div>
+        <div class="serif text-xl">\(L(s)\)</div>
+      </div>
+      <div class="flow-arrow text-2xl"></div>
+      <div class="paper-texture p-4 text-ink">
+        <div class="text-xs mb-2">FINE STR.</div>
+        <div class="serif text-xl">\(\alpha_0\)</div>
+      </div>
+    </div>
+    <div class="flex justify-center my-4">
+      <div class="flow-arrow text-2xl transform rotate-90"></div>
+    </div>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 items-center text-center">
+      <div class="paper-texture p-4 text-ink">
+        <div class="text-xs mb-2">Z-THROAT</div>
+        <div class="serif text-xl">\(Z_{throat}=15\)</div>
+      </div>
+      <div class="flow-arrow text-2xl"></div>
+      <div class="paper-texture p-4 text-ink">
+        <div class="text-xs mb-2">120-CELL</div>
+        <div class="serif text-xl">POLYTOPE</div>
+      </div>
+    </div>
+    <div class="flex justify-center my-4">
+      <div class="flow-arrow text-2xl transform rotate-90"></div>
+    </div>
+    <div class="text-center">
+      <div class="paper-texture p-6 text-ink inline-block">
+        <div class="text-xs mb-2">EXECUTION</div>
+        <div class="serif text-2xl">HOP COMPLETE</div>
+        <div class="text-xs mt-2">\(C(S_4) = 11.4221 > 2\sqrt{13}\)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['\\(','\\)']] },
+  chtml: { scale: 0.95 }
+};
+
+let systemPower = false;
+let auditComplete = 0;
+let currentPhoto = 1;
+let glitchActive = false;
+let rotationAngle = 0;
+let zParameters = {
+  zfreq: false, zmetric: false, zlock: false, 
+  zcoherence: false, zroute: true, zbound: false, zhealth: false
+};
+
+// BOOT Sequence
+document.getElementById('powerSwitch').addEventListener('click', function() {
+  this.classList.toggle('on');
+  systemPower = !systemPower;
+  if (systemPower) {
+    setTimeout(() => {
+      document.getElementById('boot-screen').classList.add('hidden');
+      document.getElementById('main-console').classList.remove('hidden');
+      initializeSystems();
+    }, 600);
+  }
+});
+
+function initializeSystems() {
+  initTAudit();
+  initEventMonitor();
+  init120Cell();
+  initPrimeSieve();
+  updatePhotoViewer();
+  MathJax.typesetPromise();
+}
+
+// T1-T12 Audit
+function initTAudit() {
+  const grid = document.getElementById('tAuditGrid');
+  for (let i = 1; i <= 12; i++) {
+    const btn = document.createElement('button');
+    btn.className = 'pushbutton text-xs';
+    btn.textContent = `T${i}`;
+    btn.dataset.t = i;
+    btn.addEventListener('click', function() {
+      if (!this.classList.contains('completed')) {
+        this.classList.add('completed');
+        this.innerHTML = `T${i} <span class="led green on ml-1"></span>`;
+        auditComplete++;
+        updateAuditStatus();
+      }
+    });
+    grid.appendChild(btn);
+  }
+}
+
+function updateAuditStatus() {
+  document.getElementById('auditStatus').textContent = `${auditComplete}/12`;
+  if (auditComplete === 12) {
+    document.getElementById('launchAuth').innerHTML = 
+      '<span class="crt-text-green">SORRY: 0 FROZEN, LAUNCH AUTHORIZED</span>';
+    document.getElementById('launchAuth').classList.add('crt-text-green');
+  }
+}
+
+// Protocol Z Toggles
+document.querySelectorAll('.toggle-switch').forEach(toggle => {
+  toggle.addEventListener('click', function() {
+    this.classList.toggle('active');
+    const param = this.dataset.param;
+    zParameters[param] = !zParameters[param];
+    if (param === 'zroute') {
+      logCommand('Z-ROUTE MUST REMAIN AT 15 FOR STABILITY');
+    }
+  });
+});
+
+// Event Monitor - Oscilloscope
+let p5Canvas, p6Canvas, p5Ctx, p6Ctx;
+let time = 0;
+
+function initEventMonitor() {
+  p5Canvas = document.createElement('canvas');
+  p6Canvas = document.createElement('canvas');
+  p5Canvas.width = p6Canvas.width = 300;
+  p5Canvas.height = p6Canvas.height = 96;
+  document.getElementById('zWarmCanvas').appendChild(p5Canvas);
+  document.getElementById('zResonantCanvas').appendChild(p6Canvas);
+  p5Ctx = p5Canvas.getContext('2d');
+  p6Ctx = p6Canvas.getContext('2d');
+  animateOscilloscope();
+}
+
+function animateOscilloscope() {
+  if (!systemPower) return;
+  time += 0.05;
+  
+  // p5 - Z-WARM
+  p5Ctx.fillStyle = 'rgba(0,0,0,0.1)';
+  p5Ctx.fillRect(0, 0, p5Canvas.width, p5Canvas.height);
+  p5Ctx.strokeStyle = '#33ff33';
+  p5Ctx.lineWidth = 2;
+  p5Ctx.beginPath();
+  for (let x = 0; x < p5Canvas.width; x++) {
+    const y = p5Canvas.height/2 + Math.sin(x * 0.05 + time) * 20 + Math.sin(x * 0.02 + time*2) * 10;
+    if (x === 0) p5Ctx.moveTo(x, y);
+    else p5Ctx.lineTo(x, y);
+  }
+  p5Ctx.stroke();
+  document.getElementById('p5val').textContent = (Math.sin(time) * 0.5 + 0.5).toFixed(2);
+  
+  // p6 - Z-RESONANT
+  p6Ctx.fillStyle = 'rgba(0,0,0,0.1)';
+  p6Ctx.fillRect(0, 0, p6Canvas.width, p6Canvas.height);
+  p6Ctx.strokeStyle = '#ffb000';
+  p6Ctx.lineWidth = 2;
+  p6Ctx.beginPath();
+  const p6Value = 1.23e-15 + Math.sin(time * 3) * 1.0e-14;
+  for (let x = 0; x < p6Canvas.width; x++) {
+    const y = p6Canvas.height/2 + Math.sin(x * 0.1 + time * 3) * 15 + Math.cos(x * 0.05 + time) * 8;
+    if (x === 0) p6Ctx.moveTo(x, y);
+    else p6Ctx.lineTo(x, y);
+  }
+  p6Ctx.stroke();
+  
+  // Glitch effect at 3.39e-14
+  if (p6Value >= 3.39e-14 && !glitchActive) {
+    triggerGlitch();
+    document.getElementById('p6val').textContent = '3.39e-14';
+  } else if (!glitchActive) {
+    document.getElementById('p6val').textContent = p6Value.toExponential(2);
+  }
+  
+  requestAnimationFrame(animateOscilloscope);
+}
+
+function triggerGlitch() {
+  glitchActive = true;
+  document.getElementById('glitchLED').classList.add('on');
+  document.getElementById('glitchStatus').innerHTML = '<span class="crt-text-amber">QUANTUM DECOHERENCE DETECTED</span>';
+  p6Canvas.classList.add('glitch-8bit');
+  setTimeout(() => {
+    glitchActive = false;
+    document.getElementById('glitchLED').classList.remove('on');
+    document.getElementById('glitchStatus').textContent = 'QUANTUM COHERENCE: STABLE';
+    p6Canvas.classList.remove('glitch-8bit');
+  }, 2000);
+}
+
+// Z-Command Deck
+document.querySelectorAll('[data-cmd]').forEach(btn => {
+  btn.addEventListener('click', function() {
+    const cmd = this.dataset.cmd;
+    logCommand(`Z.${cmd} EXECUTED`);
+  });
+});
+
+document.getElementById('z11Btn').addEventListener('click', function() {
+  logCommand('Z.11 HOP READY - INPUT REQUIRED');
+});
+
+document.getElementById('executeHop').addEventListener('click', function() {
+  const n = document.getElementById('hopInput').value;
+  logCommand(`Z.11 HOP [${n}] INITIATED → Z_throat=15 → 120-CELL ENGAGED`);
+  if (window.cell120) {
+    window.cell120.rotationSpeed = 0.05;
+    setTimeout(() => { window.cell120.rotationSpeed = 0.01; }, 3000);
+  }
+});
+
+function logCommand(msg) {
+  const log = document.getElementById('commandLog');
+  log.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+  setTimeout(() => {
+    log.textContent = 'READY';
+  }, 3000);
+}
+
+// 120-Cell Three.js
+function init120Cell() {
+  const container = document.getElementById('cell120Container');
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.setSize(container.clientWidth, container.clientHeight);
+  container.appendChild(renderer.domElement);
+  
+  const geometry = new THREE.DodecahedronGeometry(2, 0);
+  const edges = new THREE.EdgesGeometry(geometry);
+  const material = new THREE.LineBasicMaterial({ color: 0x33ff33, linewidth: 2 });
+  const wireframe = new THREE.LineSegments(edges, material);
+  scene.add(wireframe);
+  
+  const group = new THREE.Group();
+  for (let i = 0; i < 5; i++) {
+    const clone = wireframe.clone();
+    clone.rotation.x = i * 1.2;
+    clone.rotation.y = i * 0.8;
+    clone.scale.setScalar(1 - i * 0.15);
+    group.add(clone);
+  }
+  scene.add(group);
+  
+  camera.position.z = 5;
+  window.cell120 = { rotationSpeed: 0.01 };
+  
+  function animate() {
+    requestAnimationFrame(animate);
+    group.rotation.x += window.cell120.rotationSpeed;
+    group.rotation.y += window.cell120.rotationSpeed * 0.7;
+    rotationAngle = (rotationAngle + 0.5) % 360;
+    document.getElementById('rotationVal').textContent = Math.floor(rotationAngle) + '°';
+    renderer.render(scene, camera);
+  }
+  animate();
+  
+  window.addEventListener('resize', () => {
+    camera.aspect = container.clientWidth / container.clientHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(container.clientWidth, container.clientHeight);
+  });
+}
+
+// Prime Sieve
+function initPrimeSieve() {
+  const sieve = document.getElementById('primeSieve');
+  const primes = [2,3,19,191];
+  for (let i = 0; i < 100; i++) {
+    const cell = document.createElement('div');
+    cell.className = 'ascii-cell';
+    cell.textContent = i;
+    if (primes.includes(i)) {
+      cell.classList.add('active');
+    }
+    cell.addEventListener('click', function() {
+      this.classList.toggle('active');
+      updateActivePrimes();
+    });
+    sieve.appendChild(cell);
+  }
+}
+
+function updateActivePrimes() {
+  const active = [];
+  document.querySelectorAll('.ascii-cell.active').forEach(cell => {
+    active.push(cell.textContent);
+  });
+  document.getElementById('activePrimes').textContent = active.join(', ');
+}
+
+// Field Report Viewer
+document.getElementById('prevPhoto').addEventListener('click', () => {
+  if (currentPhoto > 1) {
+    currentPhoto--;
+    updatePhotoViewer();
+  }
+});
+
+document.getElementById('nextPhoto').addEventListener('click', () => {
+  if (currentPhoto < 40) {
+    currentPhoto++;
+    updatePhotoViewer();
+  }
+});
+
+function updatePhotoViewer() {
+  const paddedNum = String(currentPhoto).padStart(3, '0');
+  document.getElementById('photoNum').textContent = paddedNum;
+  document.getElementById('photoCounter').textContent = `${currentPhoto} / 40`;
+  
+  const hash = generateHash(currentPhoto);
+  document.getElementById('photoHash').textContent = hash.substring(0, 16) + '...';
+  
+  const date = new Date(2026, 5, 4, 14, 23, currentPhoto);
+  document.getElementById('photoTime').textContent = date.toISOString().replace('T', ' ').substring(0, 19) + ' UTC';
+}
+
+function generateHash(n) {
+  let hash = 'a4f3c2e1d9b8';
+  for (let i = 0; i < 52; i++) {
+    hash += ((n * (i + 1)) % 16).toString(16);
+  }
+  return hash;
+}
+
+// Blueprint Mode
+document.getElementById('blueprintToggle').addEventListener('click', function() {
+  document.body.classList.toggle('blueprint-mode');
+  document.getElementById('blueprintView').classList.toggle('hidden');
+  this.textContent = document.body.classList.contains('blueprint-mode') ? 'CONSOLE MODE' : 'ENGINEERING DIAGRAM MODE';
+});
+</script>
+
+<script>(function(){document.addEventListener("click",function(e){var a=e.target.closest("[data-product-id]");if(!a)return;e.preventDefault();var pid=a.getAttribute("data-product-id");if(pid)parent.postMessage({type:"ecto-artifact-link-click",productId:pid},"*")})})();</script>
+<script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;var a=target.closest?target.closest("a[href]"):null;if(!a||!a.href||!/^https?:\/\//.test(a.href))return;if(a.href.replace(/#.*$/,"")===loc)return;var productId=extractProductId(target)||extractProductId(a);if(!productId)return;e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*")},true)})();</script></body>
+</html>

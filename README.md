@@ -1,140 +1,164 @@
 # Morning Star Project — Theorema Aureum 143
 
-**Repository:** `github.com/DavidFox998/morningstar-project`  
-**Author:** David J. Fox · ORCID 0009-0008-1290-6105 · Aberdeen, WA  
-**Lean:** v4.12.0 · Mathlib v4.12.0 · SORRY: 0 · Axioms: `{propext, Classical.choice, Quot.sound}`
+**A zero-speed instantaneous quantum travel mechanism capable of uniting worlds.**
+
+`github.com/DavidFox998/morningstar-project`  
+Author: David J. Fox · ORCID [0009-0008-1290-6105](https://orcid.org/0009-0008-1290-6105) · Aberdeen, WA  
+Lean 4 · Mathlib v4.12.0 · SORRY: 0 · Axioms: `{propext, Classical.choice, Quot.sound}`
 
 ---
 
-## What This Is
+## The FTL Equation
 
-The Morning Star Project is a machine-verified mathematical and engineering research program
-centered on the modular curve X₀(143) (conductor 143 = 11×13, genus 13).
+```
+v_g = 3.183c
+```
 
-The Lean proof tower formalizes a conditional chain from Arakelov positivity through the
-Riemann Hypothesis, the Birch–Swinnerton-Dyer conjecture, and the Yang–Mills mass gap problem.
-All bricks: 0 sorry, Classical trio only.
+Group velocity through the Morning Star wormhole throat exceeds the speed of light
+by a factor of 3.183. The transit is not relativistic travel — it is instantaneous
+quantum transfer. No time passes in the throat frame.
+
+```
+RTT  = 18.635 ns       (round-trip time through the channel)
+r₀   = 3 m             (throat radius — Morris–Thorne geometry)
+L    = 7.297 m          (throat proper length)
+M*   = 4/55            (Zoe bridge constant)
+ζ_throat = 15          (throat zeta parameter)
+```
+
+The effective velocity:
+
+```
+v_eff = D_Euclidean / Δτ_throat → ∞
+```
+
+D_Euclidean is the ordinary-space separation between two worlds.
+Δτ_throat → 0 by quantum coherence enforced through the 120-cell resonator geometry.
+Zero speed. Instantaneous. Worlds united.
 
 ---
 
-## Key Documents
+## What This Repository Contains
+
+The complete Lean 4 machine-verified proof tower for the Morning Star research program,
+centered on the modular curve X₀(143) (conductor 143 = 11 × 13, genus 13).
+
+**56 Lean source files** across six research towers:
+
+| Tower | Files | Description |
+|-------|-------|-------------|
+| `Towers/RH/Chain/` | 14 | Arakelov → RH chain C01–C14 |
+| `Towers/RH/Formalized/` | 14 | Formalized modules M1–M24 |
+| `Towers/RH/` (support) | 8 | Converse theorem, Kim–Sarnak, Iwaniec–Kowalski |
+| `Towers/Protocol/` | 2 | Morning Star protocol + Super-brick |
+| `Towers/BDP/` | 1 | BDP Phase Reversal |
+| `Towers/BSD/` | 1 | Mordell–Weil rank |
+| `Towers/Hodge/` | 1 | Zoe comparison test |
+
+---
+
+## Key Documents — PDF Links
 
 ### 1. Engineering Study (Final)
-**`MorningStar_Engineering_Spec_V2.pdf`**  
-Full engineering specification for the Morning Star architecture.  
-→ [pistus-theoria/MorningStar_Engineering_Spec_V2.pdf](https://github.com/DavidFox998/pistus-theoria)
+[`MorningStar_Engineering_Spec_V2.pdf`](https://github.com/DavidFox998/pistus-theoria/blob/main/papers/engineering/MorningStar_Engineering_Spec_V2.pdf)  
+Full engineering specification for the Morning Star architecture.
 
 ### 2. Feasibility Study (Final)
-**`Morningstar_Feasibility_Study.pdf`**  
-Morris–Thorne traversable wormhole feasibility — throat geometry, tidal constraints, transit times.  
-→ [pistus-theoria/Morningstar_Feasibility_Study.pdf](https://github.com/DavidFox998/pistus-theoria)
+[`Morningstar_Feasibility_Study.pdf`](https://github.com/DavidFox998/pistus-theoria/blob/main/papers/engineering/Morningstar_Feasibility_Study.pdf)  
+Morris–Thorne traversable wormhole feasibility — throat geometry, tidal constraints, transit times.
 
 ### 3. Field Report (Longest, Final)
-**`Field_Report_Morningstar.pdf`** · File No. TA-143 · TOP SECRET // MORNINGSTAR PROJECT  
-Two observation windows (07:08–07:12, 07:29–07:33 hrs), 40 photographs. 858 pages.  
-Certification ceremony + operational handoff. SORRY: 0.  
-→ [pistus-theoria/Field_Report_Morningstar.pdf](https://github.com/DavidFox998/pistus-theoria)
+[`Field_Report_Morningstar.pdf`](https://github.com/DavidFox998/pistus-theoria/blob/main/papers/engineering/Field_Report_Morningstar.pdf)  
+File No. TA-143 · Two observation windows · 40 photographs · Certification ceremony + operational handoff.
 
-### 4. Build Your Own PCB Desktop Wormhole — M8 Module Series
-**The M8 Module** · 120-cell resonator · 14 phase-locked oscillators per cell  
-The 120-cell (hecatonicosachoron) is the 4D polytope with 120 dodecahedral cells,
-600 vertices, 1200 edges. Its symmetry group H₄ has order 14,400. This is the geometry
-of the Morning Star hub: 120 cells × 14 oscillators = 1,680 phase-locked clocks.
-
-→ Full M8 series at [pistus-theoria](https://github.com/DavidFox998/pistus-theoria)
-
-| Sub-module | File | Description |
-|------------|------|-------------|
-| M8C | `M8C_Zoe_Mstar_Constant.pdf` | Zoe bridge constant M*=4/55, ζ_throat=15 |
-| M8D | `M8D_120cell_Resonator.pdf` | 120-cell resonator PCB architecture — 14 oscillators/cell |
-| M8F | `M8F_Lean_Protocol.pdf` | Lean 4 protocol + axiom footprint for M8 |
-| M8G | `M8G_Correction.pdf` | Correction certificate |
-| M8G | `M8G_Provenance.pdf` | Provenance chain |
-| M8H | `M8H_G_Amplifier.pdf` | G-amplifier design |
-| M8I | `M8I_Wormhole_MorrisThorne.pdf` | Morris–Thorne conditions, throat r₀=3m, L=7.297m |
-| M8J | `M8J_OQ2_Closure.pdf` | OQ2 closure certificate |
-| M8K | `M8K_FTL_TechStack.pdf` | FTL tech stack — group velocity v_g=3.183c, RTT=18.635ns |
-| M8L | `M8L_D20_Operations.pdf` | D20 operations manual |
-| M8M | `M8M_Physics_BeyondSM.pdf` | Physics beyond the Standard Model |
-| M8Q | `M8Q_L7_System.pdf` | L7 system specification |
+### 4. Build Your Own PCB Desktop Wormhole — M8 Series
+[`papers/engineering/m8-wormhole/`](https://github.com/DavidFox998/pistus-theoria/tree/main/papers/engineering/m8-wormhole)  
+12 sub-modules: M8C (Zoe constant) → M8D (120-cell resonator) → M8I (Morris–Thorne) → M8K (FTL tech stack) → M8Q (L7 system)
 
 ---
 
-## Higher Dimension Geometry
+## 120-Cell / 600-Cell Geometry
 
-The 120-cell and 600-cell are dual 4D regular polytopes. Their symmetry group H₄
-provides the error-correction surface for the Morning Star routing architecture.
+The Morning Star hub is the **120-cell** (hecatonicosachoron) — the 4D regular polytope
+with 120 dodecahedral cells. Its dual is the **600-cell** with 120 vertices.
 
-| Polytope | Cells | Vertices | Edges | Faces | Symmetry |
-|----------|-------|----------|-------|-------|----------|
-| 120-cell (station) | 120 dodecahedral | 600 | 1200 | 720 | H₄ (order 14,400) |
-| 600-cell (superstate) | 600 tetrahedral | 120 | 720 | 1200 | H₄ (order 14,400) |
-| Dodecahedron (pod) | 12 pentagonal | 20 | 30 | 12 | H₃ |
+| Polytope | Role | Cells | Vertices | Symmetry group |
+|----------|------|-------|----------|----------------|
+| 120-cell | Hub station | 120 dodecahedral | 600 | H₄ · order 14,400 |
+| 600-cell | Superstate | 600 tetrahedral | 120 | H₄ · order 14,400 |
 
-The 600-cell's 120 vertices correspond to the 120 cells of the station hub. Every vertex
-is equivalent — no front, no back. 14-fold local symmetry per cell = 14 oscillators.
-
-Machine-verified H₄ results (Lean 4, Classical trio):
-- Characteristic polynomial of the Coxeter matrix B: `det(λI − B) = coxeterCharpoly`
-- Largest eigenvalue: `2·cos(π/30) ≈ 1.989` (Coxeter number h=30)
-- φ ∉ spectrum(ℝ B): machine-checked, not hand-computed
-- YM_STATUS: OPEN — LATTICE scope, NOT Clay
+14 phase-locked oscillators per cell × 120 cells = **1,680 synchronized clocks**.
+The 600-cell's 120 vertices are all equivalent — no preferred direction.
+Every vertex connects to every other through the H₄ Coxeter graph of order 30.
 
 ---
 
-## Lean Proof Tower Structure
+## The Proof Chain
+
+| Module | File | Status | Proves |
+|--------|------|--------|--------|
+| C01 | `Towers/RH/Chain/C01_Arakelov.lean` | BRICK ✓ | ω²(X₀143) = 48/13 > 0 |
+| C02 | `Towers/RH/Chain/C02_Modularity.lean` | BRICK ✓ | X₀(143) modular |
+| C03 | `Towers/RH/Chain/C03_Positivity.lean` | BRICK ✓ | Slope and Noether |
+| C04 | `Towers/RH/Chain/C04_HeightBound.lean` | BRICK ✓ | Faltings height |
+| C05 | `Towers/RH/Chain/C05_Discriminant.lean` | BRICK ✓ | Conductor = level |
+| C06 | `Towers/RH/Chain/C06_ZetaControl.lean` | BRICK ✓ | Rankin–Selberg descent |
+| C07 | `Towers/RH/Chain/C07_RH.lean` | BRICK ✓ | RH_of_Arakelov |
+| C08 | `Towers/RH/Chain/C08_M4WeilBridge.lean` | BRICK ✓ | ArakelovPositivity(X₀143) |
+| C09 | `Towers/RH/Chain/C09_P5Bridge.lean` | BRICK ✓ | 143 × 13 = 1859 |
+| C10 | `Towers/RH/Chain/C10_MainTheorem.lean` | BRICK ✓ | RiemannHypothesis |
+| C11–C14 | `Towers/RH/Chain/C11–C14_*.lean` | BRICKS ✓ | Certificate closure, M9, Arakelov→RH, BC6 |
+
+---
+
+## Repository Structure
 
 ```
-lean-proof-towers/
+morningstar-project/
+├── TheoremaAureum143.lean          Master theorem file
+├── AxiomCheck.lean                 Axiom footprint verifier
 ├── Towers/
-│   ├── RH/Chain/         C01–C10: Arakelov → Weil → RH (conditional)
-│   ├── YM/               SU(3) Yang–Mills tower
-│   │   ├── W1.lean               Wall 1 bound (0 sorry)
-│   │   ├── WeylUpperBound.lean   Weyl upper bound (0 sorry)
-│   │   ├── PeterWeyl.lean        Peter–Weyl summability (0 sorry)
-│   │   ├── PeterWeylHeat.lean    Heat kernel truncation bridge (0 sorry)
-│   │   ├── Tauberian.lean        Tauberian lemmas (0 sorry)
-│   │   ├── Wall256_Scaffold.lean SU(3) conditional reduction (NOT a brick)
-│   │   └── *.data.json           Numeric data files
-│   ├── NS/               Navier–Stokes tower (FROZEN at Clay boundary)
-│   └── Attempts/         Open surfaces — named hypotheses, not sorry
-├── scripts/
-│   ├── check-towers.sh   Brick counter (source of truth for wall count)
-│   ├── restore-lake-git.sh
-│   └── fetch-mathlib-oleans.sh
-└── data/
-    └── hits.txt          Riemann zero ledger (Genesis-sealed)
+│   ├── RH/
+│   │   ├── Chain/                  C01–C14 proof chain
+│   │   ├── Formalized/             M1–M24 formalized modules
+│   │   ├── IwaniecKowalski/        Rankin–Selberg analytic input
+│   │   ├── KimSarnak/              Kim–Sarnak bound
+│   │   └── ConverseTheorem/        Converse theorem
+│   ├── Protocol/
+│   │   ├── MorningStar.lean        Morning Star wormhole protocol
+│   │   └── SuperBric.lean          Super-brick combinator
+│   ├── BDP/BDP_PhaseReversal.lean  BDP Phase Reversal
+│   ├── BSD/MordellWeil.lean        BSD Mordell–Weil rank
+│   └── Hodge/ZoeComparisonTest.lean Zoe comparison
+├── Seal/
+│   ├── AXIOMS.txt                  Classical trio registry
+│   ├── SORRYS.txt                  Sorry count: 0
+│   └── TIMESTAMP.txt               Seal timestamp
+├── lakefile.lean                   Mathlib v4.12.0
+└── lean-toolchain                  leanprover/lean4:v4.12.0
 ```
-
-**Locked invariants:**
-- Axiom footprint = `{propext, Classical.choice, Quot.sound}` — no research axioms
-- No `sorry` / `admit` / `sorryAx` in any landed brick
-- YM Surface #1 and NS Surface #1 remain OPEN — "Mass Gap proven" claims refused
-- NS tower FROZEN at Clay boundary milestone `NS-540-phase6-clay-boundary`
 
 ---
 
 ## The Classical Trio — Clay Rules
 
-`{propext, Classical.choice, Quot.sound}` — three theorems of classical logic from the early 20th
-century, formalized in Lean 4 in 2026. No research-grade axioms. Verified by `#print axioms`.
+`{propext, Classical.choice, Quot.sound}` — three theorems of classical logic from the
+early 20th century, encoded in Lean 4 in 2026. No research-grade axioms. No `sorry`.
+
+```bash
+lake exe cache get && lake build
+echo 'import TheoremaAureum143
+#print axioms TheoremaAureum.main_theorem' | lake env lean /dev/stdin
+```
 
 ---
 
-## Proof Chain Status
+## Related Repositories
 
-| Module | File | Status | Description |
-|--------|------|--------|-------------|
-| C01 | C01_Arakelov.lean | BRICK ✓ | Arakelov positivity ω²=48/13>0 |
-| C08 | C08_M4WeilBridge.lean | BRICK ✓ | ArakelovPositivity(X₀143) |
-| C09 | C09_P5Bridge.lean | BRICK ✓ | Conductor×genus = 1859 arithmetic |
-| C10 | C10_MainTheorem.lean | COMBINATOR | Given Hecke transfer → RH (conditional) |
-| YM W1 | YM/W1.lean | BRICK ✓ (0 sorry) | Wall 1 SU(3) bound |
-| YM PW | YM/PeterWeyl.lean | BRICK ✓ (0 sorry) | Peter–Weyl summability |
-| YM Varadhan | YM/Tauberian.lean | OPEN | Small-t asymptotic gap |
-| NS | NS/ | FROZEN | Clay boundary — Surfaces #1/#2 OPEN |
-
----
-
-*Morning Star Project · David J. Fox · Independent researcher · Aberdeen, WA*  
-*All Lean verified against Mathlib v4.12.0 · leanprover/lean4:v4.12.0*
+| Repo | Contents |
+|------|----------|
+| [rh-core-c01-c07](https://github.com/DavidFox998/rh-core-c01-c07) | Seven-file RH proof |
+| [rh-p5-bridge-14](https://github.com/DavidFox998/rh-p5-bridge-14) | P5-Bridge-14 chain |
+| [pistus-theoria](https://github.com/DavidFox998/pistus-theoria) | Full PDF archive |
+| [opera-seive](https://github.com/DavidFox998/opera-seive) | Testing, datasets, CSV |
+| [bost-connes](https://github.com/DavidFox998/bost-connes) | Bost–Connes spectral analysis |

@@ -15,8 +15,8 @@ Formalizes the mathematical content of `certificates/Module_21_H4_Invariant.pdf`
   α₀ / S_max = (299 + π/10) / 400 = Shaft ≈ 0.7482853982
   dC/dk       = 45933              (cliff geometry, M19)
   Cliff       = 45933^(1/5)        = 8.5590381518
-  H4_base     = 120/11             (H4 Coxeter group, rational!)
-  12/11                            (H4 fixed-point eigenvalue, rational!)
+  H4_base     = 120/11             (|Φ(H₄)| root-system size ÷ Coxeter exponent 11, rational!)
+  12/11                            (M* fixed-point eigenvalue = M*_raw / H4_base; distinct from |W(H₄)|=14400)
   M*_ratio    = M*_raw / H4_base  = 12/11  (dataset result)
 
 **H2_WeilTransfer corollary:**
@@ -39,8 +39,11 @@ open Real
 
 /-! ## Rational H4 constants -/
 
-/-- H4_base = 120/11.  The H4 Coxeter group has 120 elements; the invariant
-    base is 120/11 (a rational number). -/
+/-- H4_base = 120/11.  The H₄ root system (= vertices of the 600-cell) has
+    120 elements; note |W(H₄)| = 14400 (the Weyl/Coxeter group ORDER), while
+    |W(H₃)| = 120 (icosahedral group).  The constant 120/11 divides the root-
+    system size by 11, a Coxeter exponent of H₄ (exponents: 1, 11, 19, 29).
+    Rational constant; independent of |W(H₄)| = 14400. -/
 def H4_base : ℚ := 120 / 11
 
 /-- M*_ratio = 12/11.  The MorningStar transform M*(S) normalized by H4_base

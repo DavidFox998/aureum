@@ -1,44 +1,36 @@
 {
-  "title": "Morning Star Project — Theorema Aureum 143 — Opera Numerorum Mathematical Engine",
-  "description": "The Morning Star Project is the foundational mathematical framework of Opera Numerorum: 19 repos establishing the Theorema Aureum 143. Provides the FTL equation v_g=3.183c as a mathematical study of instantaneous quantum transfer via wormhole geometry. Group velocity through the Morning Star wormhole throat. Unifying framework for the four RH proof routes (A-D), BSD for 143a1, P vs NP, Yang-Mills mass gap, Navier-Stokes, Lindelöf, Hodge, Poincaré spectral gap — all CLOSED via S₄={2,3,19,191}. ORCID: 0009-0008-1290-6105.",
-  "keywords": [
-    "opera-numerorum",
-    "morning-star",
-    "theorema-aureum-143",
-    "riemann-hypothesis",
-    "S4={2,3,19,191}",
-    "wormhole",
-    "quantum-transfer",
-    "lean4",
-    "mathlib",
-    "clay-millennium",
-    "formal-proof",
-    "ORCID:0009-0008-1290-6105"
-  ],
-  "license": "MIT",
+  "title": "Opera Numerorum Morning Star — GRH and BSD Certification",
   "upload_type": "software",
-  "access_right": "open",
-  "language": "en",
-  "version": "v1.6.0-aureum",
-  "related_identifiers": [
-    {
-      "identifier": "https://github.com/DavidFox998/rh-p5-bridge-14",
-      "relation": "isSupplementTo",
-      "resource_type": "software",
-      "scheme": "url"
-    },
-    {
-      "identifier": "https://github.com/DavidFox998/opera-sieve",
-      "relation": "isSupplementTo",
-      "resource_type": "software",
-      "scheme": "url"
-    }
-  ],
+  "description": "Lean 4 formalization of the Morning Star machine-certification project for generalized Riemann Hypothesis and Birch–Swinnerton-Dyer statements associated with X₀(143). This repository is part of David Fox's Opera Numerorum ensemble.",
   "creators": [
     {
-      "name": "Fox, David J.",
-      "orcid": "0009-0008-1290-6105",
-      "affiliation": "Independent Researcher, Opera Numerorum"
+      "name": "Fox, David",
+      "affiliation": "Opera Numerorum",
+      "orcid": "0009-0008-1290-6105"
     }
-  ]
+  ],
+  "license": "MIT",
+  "keywords": [
+    "Opera Numerorum",
+    "Morning Star Project",
+    "generalized Riemann Hypothesis",
+    "Birch–Swinnerton-Dyer conjecture",
+    "Lean 4",
+    "formal verification",
+    "certification"
+  ],
+  "access_right": "open",
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/DavidFox998/morningstar-project",
+      "relation": "isSupplementTo",
+      "resource_type": "software"
+    }
+  ],
+  "communities": [
+    {
+      "identifier": "lean"
+    }
+  ],
+  "language": "en"
 }

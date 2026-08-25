@@ -1,4 +1,4 @@
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20584009.svg)](https://doi.org/10.5281/zenodo.20584009)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20584009.svg)](https://doi.org/10.5281/zenodo.20584009) [![Lean proof build](https://github.com/DavidFox998/morningstar-project/actions/workflows/lean.yml/badge.svg)](https://github.com/DavidFox998/morningstar-project/actions/workflows/lean.yml)
 
 # Morning Star Project — Theorema Aureum 143
 
